@@ -3,15 +3,22 @@
 ################################################################################
 ## Form generated from reading UI file 'setup_ui.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.2
+## Created by: Qt User Interface Compiler version 6.7.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QGroupBox,
+    QHBoxLayout, QLabel, QLineEdit, QPlainTextEdit,
+    QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout,
+    QWidget)
 
 class Ui_Dialog_SetUp(object):
     def setupUi(self, Dialog_SetUp):
@@ -19,7 +26,7 @@ class Ui_Dialog_SetUp(object):
             Dialog_SetUp.setObjectName(u"Dialog_SetUp")
         Dialog_SetUp.resize(806, 528)
         Dialog_SetUp.setMinimumSize(QSize(806, 528))
-        Dialog_SetUp.setMaximumSize(QSize(806, 528))
+        Dialog_SetUp.setMaximumSize(QSize(999, 999))
         self.verticalLayout_12 = QVBoxLayout(Dialog_SetUp)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.horizontalLayout_3 = QHBoxLayout()
@@ -31,7 +38,7 @@ class Ui_Dialog_SetUp(object):
         self.groupBox = QGroupBox(Dialog_SetUp)
         self.groupBox.setObjectName(u"groupBox")
         font = QFont()
-        font.setFamily(u"\u5b8b\u4f53")
+        font.setFamilies([u"\u5b8b\u4f53"])
         font.setPointSize(10)
         self.groupBox.setFont(font)
         self.verticalLayout = QVBoxLayout(self.groupBox)
@@ -130,7 +137,7 @@ class Ui_Dialog_SetUp(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout)
 
-        self.verticalSpacer = QSpacerItem(20, 6, QSizePolicy.Minimum, QSizePolicy.Fixed)
+        self.verticalSpacer = QSpacerItem(20, 6, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
 
         self.verticalLayout_3.addItem(self.verticalSpacer)
 
@@ -199,6 +206,7 @@ class Ui_Dialog_SetUp(object):
 
         self.groupBox_11 = QGroupBox(Dialog_SetUp)
         self.groupBox_11.setObjectName(u"groupBox_11")
+        self.groupBox_11.setMinimumSize(QSize(0, 0))
         self.groupBox_11.setFont(font)
         self.verticalLayout_10 = QVBoxLayout(self.groupBox_11)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
@@ -215,6 +223,22 @@ class Ui_Dialog_SetUp(object):
         self.checkBox_force_http.setChecked(False)
 
         self.verticalLayout_10.addWidget(self.checkBox_force_http)
+
+        self.checkBox_archives = QCheckBox(self.groupBox_11)
+        self.checkBox_archives.setObjectName(u"checkBox_archives")
+
+        self.verticalLayout_10.addWidget(self.checkBox_archives)
+
+        self.checkBox_ua = QCheckBox(self.groupBox_11)
+        self.checkBox_ua.setObjectName(u"checkBox_ua")
+
+        self.verticalLayout_10.addWidget(self.checkBox_ua)
+
+        self.lineEdit_ua = QLineEdit(self.groupBox_11)
+        self.lineEdit_ua.setObjectName(u"lineEdit_ua")
+        self.lineEdit_ua.setMinimumSize(QSize(0, 0))
+
+        self.verticalLayout_10.addWidget(self.lineEdit_ua)
 
         self.checkBox_language = QCheckBox(self.groupBox_11)
         self.checkBox_language.setObjectName(u"checkBox_language")
@@ -355,7 +379,7 @@ class Ui_Dialog_SetUp(object):
 
         self.horizontalLayout_4.addWidget(self.groupBox_12)
 
-        self.horizontalSpacer = QSpacerItem(24, 0, QSizePolicy.Preferred, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(24, 0, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_4.addItem(self.horizontalSpacer)
 
@@ -433,7 +457,7 @@ class Ui_Dialog_SetUp(object):
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_4)
 
-        self.verticalSpacer_2 = QSpacerItem(13, 30, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_2 = QSpacerItem(13, 30, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_12.addItem(self.verticalSpacer_2)
 
@@ -461,7 +485,7 @@ class Ui_Dialog_SetUp(object):
 
         self.horizontalLayout_14.addLayout(self.horizontalLayout_13)
 
-        self.horizontalSpacer_3 = QSpacerItem(24, 18, QSizePolicy.Preferred, QSizePolicy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(24, 18, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_14.addItem(self.horizontalSpacer_3)
 
@@ -495,7 +519,7 @@ class Ui_Dialog_SetUp(object):
 
         self.horizontalLayout_12 = QHBoxLayout()
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.horizontalSpacer_2 = QSpacerItem(728, 17, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(728, 17, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_12.addItem(self.horizontalSpacer_2)
 
@@ -555,12 +579,14 @@ class Ui_Dialog_SetUp(object):
         self.groupBox_11.setTitle(QCoreApplication.translate("Dialog_SetUp", u"\u5176\u4ed6", None))
         self.checkBox_mt.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4f7f\u7528\u591a\u7ebf\u7a0b\u4e0b\u8f7d", None))
         self.checkBox_force_http.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4f7f\u7528HTTP\u66ff\u6362HTTPS", None))
+        self.checkBox_archives.setText(QCoreApplication.translate("Dialog_SetUp", u"\u8bb0\u5f55\u5df2\u4e0b\u8f7d\u89c6\u9891\uff0c\u540e\u7eed\u8df3\u8fc7", None))
+        self.checkBox_ua.setText(QCoreApplication.translate("Dialog_SetUp", u"\u6307\u5b9auser-agent", None))
 #if QT_CONFIG(tooltip)
         self.checkBox_language.setToolTip(QCoreApplication.translate("Dialog_SetUp", u"<html><head/><body><p>\u8bbe\u7f6e\u6df7\u6d41\u7684\u97f3\u9891\u8bed\u8a00(\u4ee3\u7801)\uff0c\u5982chi, jpn\u7b49</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
         self.checkBox_language.setText(QCoreApplication.translate("Dialog_SetUp", u"\u8bbe\u7f6e\u6df7\u6d41\u7684\u97f3\u9891\u8bed\u8a00\u4ee3\u7801", None))
         self.lineEdit_language.setPlaceholderText(QCoreApplication.translate("Dialog_SetUp", u"\u5982chi,jpn", None))
-        self.groupBox_7.setTitle(QCoreApplication.translate("Dialog_SetUp", u"\u6587\u4ef6\u540d\u9009\u9879", None))
+        self.groupBox_7.setTitle(QCoreApplication.translate("Dialog_SetUp", u"\u4f7f\u7528\u5185\u7f6e\u53d8\u91cf\u5b58\u50a8\u6587\u4ef6\u6587\u4ef6\u540d\u9009\u9879", None))
         self.checkBox_F.setText(QCoreApplication.translate("Dialog_SetUp", u"\u5355\u5206P", None))
         self.lineEdit_F.setPlaceholderText(QCoreApplication.translate("Dialog_SetUp", u"<videoTitle>", None))
         self.checkBox_M.setText(QCoreApplication.translate("Dialog_SetUp", u"\u591a\u5206P", None))
@@ -582,8 +608,10 @@ class Ui_Dialog_SetUp(object):
 "<audioBandwidth>: \u97f3\u9891\u7801\u7387\n"
 "<ownerName>: \u4e0a\u4f20\u8005\u540d\u79f0\n"
 "<ownerMid>: \u4e0a\u4f20\u8005mid\n"
-"<publishDate>: \u53d1\u5e03\u65f6\u95f4\n"
-"<apiType>: API\u7c7b\u578b(TV/APP/INTL/WEB)", None))
+"<publishDate>: \u6536\u85cf\u5939/\u756a\u5267/\u5408\u96c6\u53d1\u5e03\u65f6\u95f4\n"
+"<videoDate>: \u89c6\u9891\u53d1\u5e03\u65f6\u95f4(\u5206p\u89c6\u9891\u53d1\u5e03\u65f6\u95f4\u4e0e<publishDate>\u76f8\u540c)\n"
+"<apiType>: API\u7c7b\u578b(TV/APP/INTL/WEB)\n"
+"\u9ed8\u8ba4\u4e3a: <videoTitle>", None))
         self.groupBox_12.setTitle(QCoreApplication.translate("Dialog_SetUp", u"aria2c", None))
         self.checkBox_use_aria2c.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4f7f\u7528aria2c", None))
         self.checkBox_aria2c_path.setText(QCoreApplication.translate("Dialog_SetUp", u"\u6587\u4ef6\u8def\u5f84", None))
