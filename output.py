@@ -1,11 +1,15 @@
+import os
+import signal
 import subprocess
 from time import sleep
 
-from PySide2.QtCore import QThread, Signal
-from PySide2.QtWidgets import QDialog
+from PySide6.QtCore import QThread, Signal
+from PySide6.QtWidgets import QDialog
 
 from UI.output_ui import Ui_Dialog_output
-from tools import log
+from tools import log, system
+
+flag = 'gbk' if system == 'Windows' else 'utf-8'
 
 
 # 创建新线程
@@ -19,11 +23,14 @@ class NewThreads(QThread):
         """
         super().__init__()
         # 运行命令
-        self.p = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        if system == 'Windows':
+            self.p = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        else:
+            self.p = subprocess.Popen(args.split(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
     def run(self):
         while True:
-            out = self.p.stdout.readline().decode('gbk')  # 获取输出内容
+            out = self.p.stdout.readline().decode(flag)  # 获取输出内容
             if out == '':
                 self.info_signal.emit(True)
                 break
@@ -64,7 +71,11 @@ class DialogOutput(QDialog, Ui_Dialog_output):
         if self.flage_stop:
             return
         # 调用命令，暂停下载
-        subprocess.Popen(['taskkill', '/F', '/T', '/PID', str(self.thread.p.pid)], shell=True)
+        if system == 'Windows':
+            subprocess.Popen(['taskkill', '/F', '/T', '/PID', str(self.thread.p.pid)], shell=True)
+        else:
+            subprocess.Popen(['kill', '-9', str(self.thread.p.pid)])
+
         self.display('')
         self.display('')
         self.display(log() + ' 下载已停止')

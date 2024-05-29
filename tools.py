@@ -2,9 +2,10 @@ import os
 import json
 import sys
 import platform
-import datetime
 import time
 
+# 判断系统类型
+system = 'Windows' if platform.system() == 'Windows' else 'Linux'
 
 # 获取当前工作路径
 def get_workdir():
@@ -14,7 +15,7 @@ def get_workdir():
 
 # 获取BBDown的路径
 def get_bbdown():
-    h = '.exe' if platform.system() == 'Windows' else ''
+    h = '.exe' if system == 'Windows' else ''
     bbdown = os.path.join(get_workdir(), "BBDown" + h)
     return bbdown
 
@@ -52,8 +53,7 @@ def save_config(obj):
 # 加载配置文件
 def load_config(obj):
     # 判断是否有配置文件
-    # if not os.path.isfile(config_path):
-    #     return
+
     with open(config_path, 'r') as f:
         config = json.loads(f.read())
     # 按照配置文件设置

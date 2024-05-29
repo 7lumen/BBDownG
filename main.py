@@ -1,14 +1,15 @@
 import os
 import sys
-
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog
+import subprocess
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog
 
 from UI.main_ui import Ui_MainWindow
 from about import DialogAbout
 from output import DialogOutput
 from set_up import Window
-from tools import workdir, save_config, load_config, read_config, config_path
+from login import Login
+from tools import workdir, save_config, load_config, read_config, config_path, system
 from UI import icon
 
 
@@ -18,7 +19,7 @@ class MainWindow(Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.parent = QMainWindow()
         self.setupUi(self.parent)
-        self.parent.setWindowTitle('BBDownG - 1.0')
+        self.parent.setWindowTitle('BBDownG - 1.1')
 
         flag = 0
         # 判断是否有配置文件
@@ -36,6 +37,8 @@ class MainWindow(Ui_MainWindow):
         self.action_set_up.triggered.connect(self.open_setup)  # 打开设置界面
         self.action_about.triggered.connect(self.open_about)  # 打开关于界面
         self.pushButton_download.clicked.connect(self.download)  # 开始下载
+        self.pushButton_login.clicked.connect(lambda x: self.open_login('login'))
+        self.pushButton_logintv.clicked.connect(lambda x: self.open_login('logintv'))
 
     # 设置下载保存路径
     def down_path(self):
@@ -49,9 +52,22 @@ class MainWindow(Ui_MainWindow):
         if url_text:
             self.lineEdit_url.setText(url_text)
 
+    # 打开登录界面
+    def open_login(self, arg):
+        login = Login(arg)
+        login.exec()
+        self.close_process(str(login.cmd.pid))
+
     # 打开设置界面
     def open_setup(self):
-        self.setup_window.exec_()
+        self.setup_window.exec()
+
+    # 当下载界面或登录界面关闭时候调用
+    def close_process(self, pid):
+        if system == 'Windows':
+            subprocess.run(['taskkill', '/F', '/T', '/PID', pid], shell=True)
+        else:
+            subprocess.run(['kill', '-9', pid])
 
     # 开始下载
     def download(self):
@@ -59,7 +75,6 @@ class MainWindow(Ui_MainWindow):
         args = self.arg()
 
         # 如果用户填写的下载地址是一个文本就根据文本内容下载
-        print(args)
         if os.path.isfile(self.lineEdit_url.text()):
             with open(self.lineEdit_url.text(), 'r') as f:
                 lines = f.readlines()
@@ -72,12 +87,13 @@ class MainWindow(Ui_MainWindow):
 
                 # 将参数传递到下载界面
                 output_window = DialogOutput(new_args, True)
-                output_window.exec_()
+                output_window.exec()
 
         else:
             # 将参数传递到下载界面
             output_window = DialogOutput(args)
-            output_window.exec_()
+            output_window.exec()
+        self.close_process(str(output_window.thread.p.pid))
 
     # 下载参数
     def arg(self):
@@ -87,10 +103,10 @@ class MainWindow(Ui_MainWindow):
         config = read_config()
 
         # BBDown路径
-        args += f'"{config["lineEdit_bbdown"]}"'
+        args += f'"{config["lineEdit_bbdown"]}"' if system == 'Windows' else f'{config["lineEdit_bbdown"]}'
 
         # 视频下载地址
-        args += f' "{self.lineEdit_url.text()}" '
+        args += f' "{self.lineEdit_url.text()}" ' if system == 'Windows' else f' {self.lineEdit_url.text()} '
 
         # 画质选择
         if self.radioButton_dfn_priority.isChecked():
@@ -212,17 +228,25 @@ class MainWindow(Ui_MainWindow):
             if config['checkBox_ep_host']:  # 番剧代理
                 args += f' --ep-host {config["lineEdit_ep_host"]} '
             if config['checkBox_area']:  # 地区指定
-                args += f' --area {config["lineEdit_area"]} '
+                args += f' --area {config["lineEdit_ua"]} '
+
+        # ua设置
+        if config['checkBox_ua']:
+            args += f' -ua {config["lineEdit_ua"]}'
+
+        # 是否记录已经下载视频，以便后续跳过
+        if config['checkBox_archives']:
+            args += f' --save-archives-to-file'
 
         # 下载路径
-        args += f' --work-dir "{self.lineEdit_dir.text()}" '
+        args += f' --work-dir "{self.lineEdit_dir.text()}" ' if system == 'Windows' else f' --work-dir {self.lineEdit_dir.text()} '
 
         return args
 
     # 启动关于界面
     def open_about(self):
         about_window = DialogAbout()
-        about_window.exec_()
+        about_window.exec()
 
 
 # 启动主界面
@@ -231,7 +255,7 @@ def main():
     app.setWindowIcon(QIcon(':icon/icon.ico'))  # 设置图标
     window = MainWindow()
     window.parent.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 if __name__ == '__main__':

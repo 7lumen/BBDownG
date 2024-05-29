@@ -1,9 +1,11 @@
 import os
 
-from PySide2.QtWidgets import QDialog, QFileDialog
+from PySide6.QtWidgets import QDialog, QFileDialog
 
 from UI.setup_ui import Ui_Dialog_SetUp
-from tools import save_config, load_config, workdir, bbdown_path
+from tools import save_config, load_config, workdir, bbdown_path, system
+
+h = '.exe' if system == 'Windows' else ''
 
 
 class Window(QDialog, Ui_Dialog_SetUp):
@@ -13,8 +15,8 @@ class Window(QDialog, Ui_Dialog_SetUp):
         self.setWindowTitle('BBDownG - 设置')
 
         if flag:
-            self.lineEdit_ffmpeg.setText(os.path.join(workdir, 'ffmpeg.exe'))  # 默认ffmpeg位置
-            self.lineEdit_aria2c_path.setText(os.path.join(workdir, 'aria2c.exe'))  # 默认aria2c位置
+            self.lineEdit_ffmpeg.setText(os.path.join(workdir, f'ffmpeg{h}'))  # 默认ffmpeg位置
+            self.lineEdit_aria2c_path.setText(os.path.join(workdir, f'aria2c{h}'))  # 默认aria2c位置
             self.lineEdit_bbdown.setText(bbdown_path)  # 默认BBDown路径
             self.lineEdit_aria2c_args.setText('-x16 -s16 -j16 -k 5M')
             save_config(self)
@@ -26,13 +28,13 @@ class Window(QDialog, Ui_Dialog_SetUp):
 
     # 选择ffmpeg程序路径
     def ffmpeg_path(self):
-        ffmpeg_file = QFileDialog.getOpenFileName(None, '选择文件', workdir, 'ffmpeg (ffmpeg.exe)')[0]
+        ffmpeg_file = QFileDialog.getOpenFileName(None, '选择文件', workdir, f'ffmpeg (ffmpeg{h})')[0]
         if ffmpeg_file:
             self.lineEdit_ffmpeg.setText(ffmpeg_file)
 
     # 选择BBDown程序路径
     def bbdown_path(self):
-        bbdown_file = QFileDialog.getOpenFileName(None, '选择文件', workdir, 'BBDown (BBDown.exe)')[0]
+        bbdown_file = QFileDialog.getOpenFileName(None, '选择文件', workdir, f'BBDown (BBDown{h})')[0]
         if bbdown_file:
             self.lineEdit_bbdown.setText(bbdown_file)
 
