@@ -14,7 +14,7 @@ BBDown的图形化跨平台版本 - 哔哩哔哩(B站)视频下载、音频下�
 
 ## 使用方法
 1. 将BBDownG、aria2c.exe、BBDown.exe、ffmpeg.exe放在一起即可使用，或者自己在程序中指定路径
-2. 如果实在Linux下，系统中已经安装有ffmpeg等程序，可以在设置中取消勾选相应的路径，程序将会自动识别系统变量
+2. 如果是在Linux下，系统中已经安装有ffmpeg等程序，可以在设置中取消勾选相应的路径，程序将会自动识别系统变量
 3. 其它使用方法自行摸索
 
 
@@ -29,24 +29,24 @@ BBDown的图形化跨平台版本 - 哔哩哔哩(B站)视频下载、音频下�
 
 BBDown - GUI
 
-软件作者：ZhiyuShang
-协议许可：MIT License
-仓库地址：https://github.com/1299172402/BBDown_GUI
+软件作者：ZhiyuShang 
+协议许可：MIT License 
+仓库地址：https://github.com/1299172402/BBDown_GUI 
 软件下载：https://github.com/1299172402/BBDown_GUI/releases
 
 
 BBDown
 
-仓库地址：https://github.com/nilaoda/BBDown
+仓库地址：https://github.com/nilaoda/BBDown 
 许可协议：https://github.com/nilaoda/BBDown/blob/master/LICENSE
 
 
 aria2c
 
-仓库地址：https://github.com/aria2/aria2
+仓库地址：https://github.com/aria2/aria2 
 许可协议：https://github.com/aria2/aria2/blob/master/COPYING
 
 
 FFmpeg
-仓库地址：https://github.com/FFmpeg/FFmpeg
+仓库地址：https://github.com/FFmpeg/FFmpeg 
 许可协议：https://github.com/FFmpeg/FFmpeg/blob/master/LICENSE.md
