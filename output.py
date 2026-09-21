@@ -1,15 +1,13 @@
-import os
-import signal
 import subprocess
 from time import sleep
 
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import QDialog
 
-from UI.output_ui import Ui_Dialog_output
+from UI.output import Ui_Dialog_output
 from tools import log, system
 
-flag = 'gbk' if system == 'Windows' else 'utf-8'
+coding = "gbk" if system == "Windows" else "utf-8"
 
 
 # 创建新线程
@@ -23,19 +21,31 @@ class NewThreads(QThread):
         """
         super().__init__()
         # 运行命令
-        if system == 'Windows':
-            self.p = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        if system == "Windows":
+            self._process = subprocess.Popen(
+                args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+            )
         else:
-            self.p = subprocess.Popen(args.split(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            self._process = subprocess.Popen(
+                args.split(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+            )
 
     def run(self):
         while True:
-            out = self.p.stdout.readline().decode(flag)  # 获取输出内容
-            if out == '':
-                self.info_signal.emit(True)
-                break
+            out = self._process.stdout.readline().decode(coding)  # 获取输出内容
             # 传递内容
             self.output_signal.emit(out)
+            if out == "":
+                self.info_signal.emit(True)
+                break
+
+    def terminate_process(self):
+        if system == "Windows":
+            subprocess.Popen(
+                ["taskkill", "/F", "/T", "/PID", str(self._process.pid)], shell=True
+            )
+        else:
+            subprocess.Popen(["kill", "-9", str(self._process.pid)])
 
 
 # 窗体
@@ -44,42 +54,40 @@ class DialogOutput(QDialog, Ui_Dialog_output):
         super().__init__()
         self.setupUi(self)
         self.flag = flag
-        self.args = args
-        self.setWindowTitle('BBDownG - 下载')
+        self.setWindowTitle("BBDownG - 下载")
 
         # 显示下载参数
-        self.lineEdit_cmd.setText(self.args)
+        self.lineEdit_cmd.setText(args)
         self.lineEdit_cmd.setCursorPosition(0)
-        self.pushButton_stop.clicked.connect(self.stop)  # 暂停下载
-        self.flage_stop = False
-        self.stat_down()  # 开始下载
 
-    # 创建线程，开始下载
-    def stat_down(self):
-        self.thread = NewThreads(self.args)
-        self.thread.start()
+        # 暂停下载
+        self.pushButton_stop.clicked.connect(self.stop)
+        self.flage_stop = False
+
+        # 创建线程，开始下载
+        self.thread = NewThreads(args)
         self.thread.output_signal.connect(self.display)
         self.thread.info_signal.connect(self.close_down_window)
+        self.thread.start()
 
     # 将信息显示出来
-    def display(self, m):
-        self.textEdit_output.setText(self.textEdit_output.toPlainText() + m.strip() + '\n')
-        self.textEdit_output.verticalScrollBar().setValue(self.textEdit_output.verticalScrollBar().maximum())
+    def display(self, text):
+        """追加输出并自动滚到底部"""
+        self.textEdit_output.append(text)
+        scrollbar = self.textEdit_output.verticalScrollBar()
+        scrollbar.setValue(scrollbar.maximum())
 
     # 暂停下载
     def stop(self):
         if self.flage_stop:
             return
-        # 调用命令，暂停下载
-        if system == 'Windows':
-            subprocess.Popen(['taskkill', '/F', '/T', '/PID', str(self.thread.p.pid)], shell=True)
-        else:
-            subprocess.Popen(['kill', '-9', str(self.thread.p.pid)])
-
-        self.display('')
-        self.display('')
-        self.display(log() + ' 下载已停止')
         self.flage_stop = True
+        # 调用命令，暂停下载
+        self.thread.terminate_process()
+
+        self.display("")
+        self.display("")
+        self.display(log() + " 下载已停止")
 
     # 关闭下载窗口
     def close_down_window(self):

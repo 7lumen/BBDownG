@@ -7,23 +7,35 @@ import time
 # 判断系统类型
 system = 'Windows' if platform.system() == 'Windows' else 'Linux'
 
+
 # 获取当前工作路径
 def get_workdir():
     workdir = os.path.dirname(os.path.abspath(sys.argv[0]))
     return workdir
 
 
-# 获取BBDown的路径
-def get_bbdown():
-    h = '.exe' if system == 'Windows' else ''
-    bbdown = os.path.join(get_workdir(), "BBDown" + h)
+# 获取BBDownT的路径
+def get_bbdown_path():
+    h = '_win-x64.exe' if system == 'Windows' else '_linux-x64'
+    bbdown = os.path.join(get_workdir(), "BBDownT" + h)
     return bbdown
 
 
 workdir = get_workdir()
-bbdown_path = get_bbdown()
 # 配置文件路径
 config_path = os.path.join(get_workdir(), 'config.json')
+
+
+def log():
+    t = time.time()
+    return f'[{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))}.{int(t * 1000) % 1000}]'
+
+
+# 读取配置文件
+def read_config():
+    with open(config_path, 'r') as f:
+        config = json.loads(f.read())
+        return config
 
 
 # 保存配置文件
@@ -35,15 +47,19 @@ def save_config(obj):
             old_config = json.loads(f.read())
 
     config = {}
-    for i in dir(obj):
-        if i[:9] == "checkBox_":
-            exec(f"config[i] = obj.{i}.isChecked()")
-        elif i[:12] == "radioButton_":
-            exec(f"config[i] = obj.{i}.isChecked()")
-        elif i[:9] == "lineEdit_":
-            exec(f"config[i] = obj.{i}.text()")
-        elif i[:9] == "comboBox_":
-            exec(f"config[i] = obj.{i}.currentIndex()")
+    for name in dir(obj):
+        if name.startswith("checkBox_"):
+            widget = getattr(obj, name)
+            config[name] = widget.isChecked()
+        elif name.startswith("radioButton_"):
+            widget = getattr(obj, name)
+            config[name] = widget.isChecked()
+        elif name.startswith("lineEdit_"):
+            widget = getattr(obj, name)
+            config[name] = widget.text()
+        elif name.startswith("comboBox_"):
+            widget = getattr(obj, name)
+            config[name] = widget.currentIndex()
 
     old_config.update(config)
     with open(config_path, 'w') as f:
@@ -61,21 +77,10 @@ def load_config(obj):
         try:
             if type(config[i]) is type(True):
                 exec(f'obj.{i}.setChecked({config[i]})')
+                getattr(obj, i)
             elif type(config[i]) is type(''):
                 exec(f'obj.{i}.setText(r"{config[i]}")')
             elif type(config[i]) is type(0):
                 exec(f'obj.{i}.setCurrentIndex({config[i]})')
         except:
             continue
-
-
-# 读取配置文件
-def read_config():
-    with open(config_path, 'r') as f:
-        config = json.loads(f.read())
-        return config
-
-
-def log():
-    t = time.time()
-    return f'[{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))}.{int(t * 1000) % 1000}]'
