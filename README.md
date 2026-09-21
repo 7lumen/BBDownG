@@ -10,10 +10,10 @@ BBDownG是BBDown的图形化跨平台版本，支持从哔哩哔哩(B站)下载�
 ## 软件截图
 
 ### 主界面
-![主界面截图](https://github.com/7lumen/BBDownG/assets/164745147/afd95708-c847-4d01-bc22-6f6f6d9f33c3)
+![主界面截图](https://github.com/user-attachments/assets/4304265e-b04b-4574-b89f-3791b8fb6044)
 
 ### 设置界面
-![设置界面截图](https://github.com/7lumen/BBDownG/assets/164745147/3efff6cd-c150-4394-9eaf-b492abc45ccc)
+![设置界面截图](https://github.com/user-attachments/assets/d2164e80-5d0c-467b-9d23-3b895012311d)
 
 ## 使用方法
 
@@ -33,19 +33,21 @@ BBDownG是BBDown的图形化跨平台版本，支持从哔哩哔哩(B站)下载�
 
 ## 当前版本
 
-- **版本号**：v1.1
+- **版本号**：v1.2
 - **GitHub仓库地址**：[https://github.com/7lumen/BBDownG](https://github.com/7lumen/BBDownG)
 
 ## 致谢
 
-感谢以下开源项目的支持：
+感谢以下开源项目：
 
 - **[BBDown - GUI](https://github.com/1299172402/BBDown_GUI)**
   - 作者：ZhiyuShang
   - 许可协议：MIT License
   - [软件下载地址](https://github.com/1299172402/BBDown_GUI/releases)
+ 
+- **[BBdownT](https://github.com/LOVAHE/BBDownT)**   [许可协议](https://github.com/LOVAHE/BBDownT/?tab=MIT-1-ov-file) 
 
-- **[BBDown](https://github.com/nilaoda/BBDown)**    [许可协议](https://github.com/nilaoda/BBDown/blob/master/LICENSE)
+- **[BBDown](https://github.com/nilaoda/BBDown)**    [许可协议](https://github.com/nilaoda/BBDown/blob/master/LICENSE)已归档不在更新。现在本项目使用BBdownT
 
 - **[aria2c](https://github.com/aria2/aria2)**       [许可协议](https://github.com/aria2/aria2/blob/master/COPYING)
 
