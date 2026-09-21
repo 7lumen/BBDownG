@@ -18,7 +18,7 @@ BBDownG是BBDown的图形化跨平台版本，支持从哔哩哔哩(B站)下载�
 ## 使用方法
 
 1. **准备工作**：
-   - 将 `BBDownG`、`aria2c.exe`、`BBDown.exe`、`ffmpeg.exe` 四个文件放在同一目录下，或者在程序设置中指定它们的路径。
+   - 将 `BBDownG`、`aria2c.exe`、`BBDownT.exe`、`ffmpeg.exe` 四个文件放在同一目录下，或者在程序设置中指定它们的路径。
    
 2. **Linux用户**：
    - 如果你在Linux系统下，且已经安装了 `ffmpeg` 等工具，可以在设置中取消勾选相应的路径，程序会自动识别系统环境变量。
@@ -45,9 +45,9 @@ BBDownG是BBDown的图形化跨平台版本，支持从哔哩哔哩(B站)下载�
   - 许可协议：MIT License
   - [软件下载地址](https://github.com/1299172402/BBDown_GUI/releases)
  
-- **[BBdownT](https://github.com/LOVAHE/BBDownT)**   [许可协议](https://github.com/LOVAHE/BBDownT/?tab=MIT-1-ov-file) 
+- **[BBDownT](https://github.com/LOVAHE/BBDownT)**   [许可协议](https://github.com/LOVAHE/BBDownT/?tab=MIT-1-ov-file) 
 
-- **[BBDown](https://github.com/nilaoda/BBDown)**    [许可协议](https://github.com/nilaoda/BBDown/blob/master/LICENSE)已归档不在更新。现在本项目使用BBdownT
+- **[BBDown](https://github.com/nilaoda/BBDown)**    [许可协议](https://github.com/nilaoda/BBDown/blob/master/LICENSE)已归档不在更新。现在本项目使用BBDownT
 
 - **[aria2c](https://github.com/aria2/aria2)**       [许可协议](https://github.com/aria2/aria2/blob/master/COPYING)
 
