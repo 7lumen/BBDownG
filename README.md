@@ -40,10 +40,7 @@ BBDownG是BBDown的图形化跨平台版本，支持从哔哩哔哩(B站)下载�
 
 感谢以下开源项目：
 
-- **[BBDown - GUI](https://github.com/1299172402/BBDown_GUI)**
-  - 作者：ZhiyuShang
-  - 许可协议：MIT License
-  - [软件下载地址](https://github.com/1299172402/BBDown_GUI/releases)
+- **[BBDown - GUI](https://github.com/1299172402/BBDown_GUI)**   [许可协议](https://github.com/1299172402/BBDown_GUI?tab=MIT-1-ov-file)
  
 - **[BBDownT](https://github.com/LOVAHE/BBDownT)**   [许可协议](https://github.com/LOVAHE/BBDownT/?tab=MIT-1-ov-file) 
 
