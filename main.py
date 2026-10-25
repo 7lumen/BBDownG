@@ -1,6 +1,5 @@
 import os
 import sys
-import subprocess
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog
 
@@ -19,7 +18,7 @@ class MainWindow(Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.parent = QMainWindow()
         self.setupUi(self.parent)
-        self.parent.setWindowTitle("BBDownG - 1.2")
+        self.parent.setWindowTitle("BBDownG - 1.3")
 
         flag = 0
         # 判断是否有配置文件
@@ -66,29 +65,32 @@ class MainWindow(Ui_MainWindow):
     # 开始下载
     def download(self):
         save_config(self)  # 保存配置
+
+        url_input = self.lineEdit_url.text().strip()  # 下载链接
         args = self.arg()
 
-        # 如果用户填写的下载地址是一个文本就根据文本内容下载
-        if os.path.isfile(self.lineEdit_url.text()):
-            with open(self.lineEdit_url.text(), "r") as f:
+        # 如果用户填写的下载地址是一个文本就逐行下载
+        if os.path.isfile(url_input):
+            with open(url_input, "r") as f:
                 lines = f.readlines()
-            for line in lines:
-                if line.strip() == "":
-                    return
-                parts = args.split(" ")
-                parts[1] = f'"{line.strip()}"'
-                new_args = " ".join(parts)
 
-                # 将参数传递到下载界面
-                output_window = DialogOutput(new_args, True)
+            for line in lines:
+                url = line.strip()
+
+                # 跳过空行
+                if not url:
+                    continue
+
+                output_window = DialogOutput(self.arg(url), True)
                 output_window.exec()
+            return
 
         # 将参数传递到下载界面
-        output_window = DialogOutput(args)
+        output_window = DialogOutput(self.arg(url_input))
         output_window.exec()
 
     # 下载参数
-    def arg(self):
+    def arg(self, url=None):
         args = ""
 
         # 读取配置文件
@@ -102,11 +104,7 @@ class MainWindow(Ui_MainWindow):
         )
 
         # 视频下载地址
-        args += (
-            f' "{self.lineEdit_url.text()}" '
-            if system == "Windows"
-            else f" {self.lineEdit_url.text()} "
-        )
+        args += (f' "{url}" ' if system == "Windows" else f" {url} ")
 
         # 画质选择
         if self.radioButton_dfn_priority.isChecked():
@@ -136,18 +134,21 @@ class MainWindow(Ui_MainWindow):
             args += (
                     " --encoding-priority "
                     + choice[self.comboBox_encoding.currentIndex()]
-                    + " "
-            )
+                    + " ")
 
         # 指定FFmpeg路径
         if config["checkBox_ffmpeg"]:
             args += f' --ffmpeg-path "{config["lineEdit_ffmpeg"]}" '
 
         # 下载分P选项
-        if self.radioButton_p_current.isChecked():
-            pass
-        elif self.radioButton_p_all.isChecked():
+        if self.radioButton_p_current.isChecked():  # 当前分p
+            if self.checkBox_p.isChecked():  # 下载指定分p范围
+                args += f' -p {self.lineEdit_p.text()} '
+        elif self.radioButton_p_all.isChecked():  # 全部分p
             args += " -p ALL "
+
+        if self.checkBox_p_delay.isChecked():  # 分p下载间隔
+            args += f' --delay-per-page {self.lineEdit_p_delay.text() if self.lineEdit_p_delay.text() else 0} '
 
         # 下载选项
         if config["checkBox_audio_only"]:  # 仅下载音频
@@ -217,12 +218,6 @@ class MainWindow(Ui_MainWindow):
         if config["checkBox_language"]:  # 设置混流的音频语言代码
             args += f' --language {config["lineEdit_language"]} '
 
-        # 分P
-        if config["checkBox_p"]:  # 指定分p范围
-            args += f' -p {config["lineEdit_p"]} '
-        if config["checkBox_p_delay"]:  # 分p下载间隔
-            args += f' --delay-per-page {config["lineEdit_p_delay"]} '
-
         # aria2c
         if config["checkBox_use_aria2c"]:  # 使用aria2c
             args += " -aria2 "
@@ -267,7 +262,6 @@ class MainWindow(Ui_MainWindow):
             if system == "Windows"
             else f" --work-dir {self.lineEdit_dir.text()} "
         )
-
         return args
 
     # 启动关于界面
