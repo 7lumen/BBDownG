@@ -1,7 +1,7 @@
 import os
 import sys
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
 
 from UI.main import Ui_MainWindow
 from about import DialogAbout
@@ -18,7 +18,7 @@ class MainWindow(Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.parent = QMainWindow()
         self.setupUi(self.parent)
-        self.parent.setWindowTitle("BBDownG - 1.3")
+        self.parent.setWindowTitle("BBDownG - 1.4")
 
         flag = 0
         # 判断是否有配置文件
@@ -40,6 +40,8 @@ class MainWindow(Ui_MainWindow):
         self.pushButton_download.clicked.connect(self.download)  # 开始下载
         self.pushButton_login.clicked.connect(lambda x: self.open_login("login"))
         self.pushButton_logintv.clicked.connect(lambda x: self.open_login("logintv"))
+        self.pushButton_logout.clicked.connect(self.logout)  # 退出登录
+        self.login_state()
 
     # 设置下载保存路径
     def down_path(self):
@@ -58,6 +60,9 @@ class MainWindow(Ui_MainWindow):
         login = Login(arg)
         login.exec()
 
+        # 登录窗口关闭后重新检查登录状态
+        self.login_state()
+
     # 打开设置界面
     def open_setup(self):
         self.setup_window.exec()
@@ -67,7 +72,6 @@ class MainWindow(Ui_MainWindow):
         save_config(self)  # 保存配置
 
         url_input = self.lineEdit_url.text().strip()  # 下载链接
-        args = self.arg()
 
         # 如果用户填写的下载地址是一个文本就逐行下载
         if os.path.isfile(url_input):
@@ -158,7 +162,7 @@ class MainWindow(Ui_MainWindow):
         if config["checkBox_sub_only"]:  # 仅下载字幕
             args += " --sub-only "
         if config["checkBox_danmaku"]:  # 仅下载弹幕
-            args += " -dd "
+            args += " --danmaku-only "
         if config['checkBox_cover']:  # 仅下载封面
             args += ' --cover-only '
         # 是否记录已经下载视频，以便后续跳过
@@ -169,6 +173,16 @@ class MainWindow(Ui_MainWindow):
 
         if config['checkBox_p_video']:  # 批量下载视频间隔
             args += f' --delay-per-video {config["lineEdit_p_video"]}'
+
+        if config["checkBox_dd"]:  # 下载弹幕
+            # 下载的弹幕格式
+            ddf = 'xml,ass'
+            if config['comboBox_ddf'] == 1:
+                ddf = 'xml'
+            elif config['comboBox_ddf'] == 2:
+                ddf = 'ass'
+
+            args += f" -dd -ddf {ddf}"
 
         # 交互选项
         if config["checkBox_ia"]:  # 交互式选择清晰度
@@ -268,6 +282,71 @@ class MainWindow(Ui_MainWindow):
     def open_about(self):
         about_window = DialogAbout()
         about_window.exec()
+
+    # 判断是否登录
+    def login_state(self):
+        """检查 BBDown 登录数据文件。"""
+        config = read_config()
+        bbdown_path = config.get("lineEdit_bbdown", "")
+
+        if not bbdown_path:
+            self.update_login_ui(None)
+            return
+
+        bbdown_dir = os.path.dirname(os.path.abspath(bbdown_path))
+
+        for filename in ("BBDownT.data", "BBDownTTV.data"):
+            login_data_path = os.path.join(bbdown_dir, filename)
+            if os.path.isfile(login_data_path):
+                self.update_login_ui(login_data_path)
+                return
+
+        self.update_login_ui(None)
+
+    def update_login_ui(self, login_data=None):
+        """根据登录状态更新按钮。"""
+        logged_in = bool(login_data)
+
+        if logged_in:
+            self.pushButton_login.setText("已登录")
+            self.pushButton_login.setEnabled(False)
+            self.pushButton_logintv.hide()
+            self.pushButton_logout.show()
+        else:
+            self.pushButton_login.setText("登录")
+            self.pushButton_login.setEnabled(True)
+            self.pushButton_logintv.show()
+            self.pushButton_logout.hide()
+
+    def logout(self):
+        """删除登录数据并恢复未登录状态。"""
+        config = read_config()
+        bbdown_path = config.get("lineEdit_bbdown", "")
+
+        if not bbdown_path:
+            self.update_login_ui(None)
+            return
+
+        bbdown_dir = os.path.dirname(os.path.abspath(bbdown_path))
+        removed = False
+
+        for filename in ("BBDownT.data", "BBDownTTV.data"):
+            login_data_path = os.path.join(bbdown_dir, filename)
+
+            if os.path.isfile(login_data_path):
+                try:
+                    os.remove(login_data_path)
+                    removed = True
+                except OSError as exc:
+                    QMessageBox.warning(
+                        self.parent,
+                        "退出登录失败",
+                        f"无法删除登录文件：\n{exc}",
+                    )
+                    return
+
+        if removed:
+            self.update_login_ui(None)
 
 
 # 启动主界面

@@ -86,13 +86,6 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0" colspan="2">
-           <widget class="QCheckBox" name="checkBox_archives">
-            <property name="text">
-             <string>记录已下载视频，后续跳过</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="3" colspan="2">
            <widget class="QCheckBox" name="checkBox_force_http">
             <property name="font">
@@ -178,6 +171,32 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="comboBox_ddf">
+            <item>
+             <property name="text">
+              <string>xml,ass</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>xml</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>ass</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_dd">
+            <property name="text">
+             <string>下载弹幕</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -245,6 +264,25 @@
             </property>
             <property name="text">
              <string>跳过字幕下载</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_archives">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>记录已下载视频,后续跳过</string>
             </property>
            </widget>
           </item>

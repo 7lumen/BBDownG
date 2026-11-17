@@ -43,22 +43,31 @@ class Ui_MainWindow(object):
         self.groupBox_4.setObjectName(u"groupBox_4")
         self.groupBox_4.setMinimumSize(QSize(0, 0))
         self.groupBox_4.setMaximumSize(QSize(200, 16777215))
+        font = QFont()
+        font.setPointSize(10)
+        self.groupBox_4.setFont(font)
         self.verticalLayout = QVBoxLayout(self.groupBox_4)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.pushButton_login = QPushButton(self.groupBox_4)
         self.pushButton_login.setObjectName(u"pushButton_login")
-        font = QFont()
-        font.setFamilies([u"\u5b8b\u4f53"])
-        font.setPointSize(10)
-        self.pushButton_login.setFont(font)
+        font1 = QFont()
+        font1.setFamilies([u"\u5b8b\u4f53"])
+        font1.setPointSize(10)
+        self.pushButton_login.setFont(font1)
 
         self.verticalLayout.addWidget(self.pushButton_login)
 
         self.pushButton_logintv = QPushButton(self.groupBox_4)
         self.pushButton_logintv.setObjectName(u"pushButton_logintv")
-        self.pushButton_logintv.setFont(font)
+        self.pushButton_logintv.setFont(font1)
 
         self.verticalLayout.addWidget(self.pushButton_logintv)
+
+        self.pushButton_logout = QPushButton(self.groupBox_4)
+        self.pushButton_logout.setObjectName(u"pushButton_logout")
+        self.pushButton_logout.setFont(font1)
+
+        self.verticalLayout.addWidget(self.pushButton_logout)
 
 
         self.horizontalLayout_5.addWidget(self.groupBox_4)
@@ -67,14 +76,14 @@ class Ui_MainWindow(object):
         self.groupBox_3.setObjectName(u"groupBox_3")
         self.groupBox_3.setMinimumSize(QSize(300, 0))
         self.groupBox_3.setSizeIncrement(QSize(0, 0))
-        self.groupBox_3.setFont(font)
+        self.groupBox_3.setFont(font1)
         self.verticalLayout_2 = QVBoxLayout(self.groupBox_3)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.label_3 = QLabel(self.groupBox_3)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setFont(font)
+        self.label_3.setFont(font1)
 
         self.horizontalLayout_3.addWidget(self.label_3)
 
@@ -90,7 +99,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.comboBox_source.sizePolicy().hasHeightForWidth())
         self.comboBox_source.setSizePolicy(sizePolicy)
         self.comboBox_source.setSizeIncrement(QSize(0, 0))
-        self.comboBox_source.setFont(font)
+        self.comboBox_source.setFont(font1)
 
         self.horizontalLayout_3.addWidget(self.comboBox_source)
 
@@ -101,7 +110,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.label_4 = QLabel(self.groupBox_3)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setFont(font)
+        self.label_4.setFont(font1)
 
         self.horizontalLayout_4.addWidget(self.label_4)
 
@@ -111,7 +120,7 @@ class Ui_MainWindow(object):
         self.comboBox_encoding.addItem("")
         self.comboBox_encoding.addItem("")
         self.comboBox_encoding.setObjectName(u"comboBox_encoding")
-        self.comboBox_encoding.setFont(font)
+        self.comboBox_encoding.setFont(font1)
 
         self.horizontalLayout_4.addWidget(self.comboBox_encoding)
 
@@ -128,18 +137,18 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setFont(font)
+        self.groupBox.setFont(font1)
         self.gridLayout = QGridLayout(self.groupBox)
         self.gridLayout.setObjectName(u"gridLayout")
         self.checkBox_p = QCheckBox(self.groupBox)
         self.checkBox_p.setObjectName(u"checkBox_p")
-        self.checkBox_p.setFont(font)
+        self.checkBox_p.setFont(font1)
 
         self.gridLayout.addWidget(self.checkBox_p, 1, 1, 1, 1)
 
         self.radioButton_p_all = QRadioButton(self.groupBox)
         self.radioButton_p_all.setObjectName(u"radioButton_p_all")
-        self.radioButton_p_all.setFont(font)
+        self.radioButton_p_all.setFont(font1)
 
         self.gridLayout.addWidget(self.radioButton_p_all, 0, 1, 1, 1)
 
@@ -152,14 +161,14 @@ class Ui_MainWindow(object):
         self.lineEdit_p.setSizePolicy(sizePolicy1)
         self.lineEdit_p.setMinimumSize(QSize(0, 0))
         self.lineEdit_p.setMaximumSize(QSize(81, 20))
-        self.lineEdit_p.setFont(font)
+        self.lineEdit_p.setFont(font1)
 
         self.gridLayout.addWidget(self.lineEdit_p, 2, 1, 1, 1)
 
         self.radioButton_p_current = QRadioButton(self.groupBox)
         self.radioButton_p_current.setObjectName(u"radioButton_p_current")
         self.radioButton_p_current.setEnabled(True)
-        self.radioButton_p_current.setFont(font)
+        self.radioButton_p_current.setFont(font1)
         self.radioButton_p_current.setTabletTracking(False)
         self.radioButton_p_current.setAcceptDrops(False)
         self.radioButton_p_current.setAutoFillBackground(False)
@@ -171,7 +180,7 @@ class Ui_MainWindow(object):
 
         self.checkBox_p_delay = QCheckBox(self.groupBox)
         self.checkBox_p_delay.setObjectName(u"checkBox_p_delay")
-        self.checkBox_p_delay.setFont(font)
+        self.checkBox_p_delay.setFont(font1)
 
         self.gridLayout.addWidget(self.checkBox_p_delay, 1, 0, 1, 1)
 
@@ -187,37 +196,37 @@ class Ui_MainWindow(object):
 
         self.groupBox_2 = QGroupBox(self.centralwidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.groupBox_2.setFont(font)
+        self.groupBox_2.setFont(font1)
         self.gridLayout_2 = QGridLayout(self.groupBox_2)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.radioButton_dfn_1080P = QRadioButton(self.groupBox_2)
         self.radioButton_dfn_1080P.setObjectName(u"radioButton_dfn_1080P")
-        self.radioButton_dfn_1080P.setFont(font)
+        self.radioButton_dfn_1080P.setFont(font1)
 
         self.gridLayout_2.addWidget(self.radioButton_dfn_1080P, 1, 0, 1, 1)
 
         self.radioButton_dfn_360P = QRadioButton(self.groupBox_2)
         self.radioButton_dfn_360P.setObjectName(u"radioButton_dfn_360P")
-        self.radioButton_dfn_360P.setFont(font)
+        self.radioButton_dfn_360P.setFont(font1)
 
         self.gridLayout_2.addWidget(self.radioButton_dfn_360P, 2, 1, 1, 1)
 
         self.radioButton_dfn_480P = QRadioButton(self.groupBox_2)
         self.radioButton_dfn_480P.setObjectName(u"radioButton_dfn_480P")
-        self.radioButton_dfn_480P.setFont(font)
+        self.radioButton_dfn_480P.setFont(font1)
 
         self.gridLayout_2.addWidget(self.radioButton_dfn_480P, 2, 0, 1, 1)
 
         self.radioButton_dfn_priority = QRadioButton(self.groupBox_2)
         self.radioButton_dfn_priority.setObjectName(u"radioButton_dfn_priority")
-        self.radioButton_dfn_priority.setFont(font)
+        self.radioButton_dfn_priority.setFont(font1)
         self.radioButton_dfn_priority.setChecked(True)
 
         self.gridLayout_2.addWidget(self.radioButton_dfn_priority, 0, 0, 1, 1)
 
         self.radioButton_dfn_720P = QRadioButton(self.groupBox_2)
         self.radioButton_dfn_720P.setObjectName(u"radioButton_dfn_720P")
-        self.radioButton_dfn_720P.setFont(font)
+        self.radioButton_dfn_720P.setFont(font1)
 
         self.gridLayout_2.addWidget(self.radioButton_dfn_720P, 1, 1, 1, 1)
 
@@ -231,13 +240,13 @@ class Ui_MainWindow(object):
         self.comboBox_dfn_more.addItem("")
         self.comboBox_dfn_more.addItem("")
         self.comboBox_dfn_more.setObjectName(u"comboBox_dfn_more")
-        self.comboBox_dfn_more.setFont(font)
+        self.comboBox_dfn_more.setFont(font1)
 
         self.gridLayout_2.addWidget(self.comboBox_dfn_more, 3, 1, 1, 1)
 
         self.radioButton_dfn_more = QRadioButton(self.groupBox_2)
         self.radioButton_dfn_more.setObjectName(u"radioButton_dfn_more")
-        self.radioButton_dfn_more.setFont(font)
+        self.radioButton_dfn_more.setFont(font1)
 
         self.gridLayout_2.addWidget(self.radioButton_dfn_more, 3, 0, 1, 1)
 
@@ -260,7 +269,7 @@ class Ui_MainWindow(object):
         sizePolicy2.setVerticalStretch(1)
         sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
         self.label_2.setSizePolicy(sizePolicy2)
-        self.label_2.setFont(font)
+        self.label_2.setFont(font1)
 
         self.horizontalLayout.addWidget(self.label_2)
 
@@ -273,7 +282,7 @@ class Ui_MainWindow(object):
         self.lineEdit_dir.setSizePolicy(sizePolicy3)
         self.lineEdit_dir.setMinimumSize(QSize(0, 0))
         self.lineEdit_dir.setSizeIncrement(QSize(0, 0))
-        self.lineEdit_dir.setFont(font)
+        self.lineEdit_dir.setFont(font1)
 
         self.horizontalLayout.addWidget(self.lineEdit_dir)
 
@@ -284,7 +293,7 @@ class Ui_MainWindow(object):
         sizePolicy4.setVerticalStretch(1)
         sizePolicy4.setHeightForWidth(self.pushButton_save_dir.sizePolicy().hasHeightForWidth())
         self.pushButton_save_dir.setSizePolicy(sizePolicy4)
-        self.pushButton_save_dir.setFont(font)
+        self.pushButton_save_dir.setFont(font1)
 
         self.horizontalLayout.addWidget(self.pushButton_save_dir)
 
@@ -304,7 +313,7 @@ class Ui_MainWindow(object):
         sizePolicy5.setVerticalStretch(1)
         sizePolicy5.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(sizePolicy5)
-        self.label.setFont(font)
+        self.label.setFont(font1)
 
         self.horizontalLayout_2.addWidget(self.label)
 
@@ -312,7 +321,7 @@ class Ui_MainWindow(object):
         self.lineEdit_url.setObjectName(u"lineEdit_url")
         sizePolicy3.setHeightForWidth(self.lineEdit_url.sizePolicy().hasHeightForWidth())
         self.lineEdit_url.setSizePolicy(sizePolicy3)
-        self.lineEdit_url.setFont(font)
+        self.lineEdit_url.setFont(font1)
 
         self.horizontalLayout_2.addWidget(self.lineEdit_url)
 
@@ -320,7 +329,7 @@ class Ui_MainWindow(object):
         self.pushButton_text.setObjectName(u"pushButton_text")
         sizePolicy4.setHeightForWidth(self.pushButton_text.sizePolicy().hasHeightForWidth())
         self.pushButton_text.setSizePolicy(sizePolicy4)
-        self.pushButton_text.setFont(font)
+        self.pushButton_text.setFont(font1)
 
         self.horizontalLayout_2.addWidget(self.pushButton_text)
 
@@ -343,7 +352,7 @@ class Ui_MainWindow(object):
         self.pushButton_download.setSizePolicy(sizePolicy4)
         self.pushButton_download.setMinimumSize(QSize(0, 0))
         self.pushButton_download.setSizeIncrement(QSize(0, 10))
-        self.pushButton_download.setFont(font)
+        self.pushButton_download.setFont(font1)
 
         self.horizontalLayout_7.addWidget(self.pushButton_download)
 
@@ -378,6 +387,7 @@ class Ui_MainWindow(object):
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"\u767b\u5f55\u8d26\u53f7", None))
         self.pushButton_login.setText(QCoreApplication.translate("MainWindow", u"\u767b\u5f55", None))
         self.pushButton_logintv.setText(QCoreApplication.translate("MainWindow", u"\u767b\u5f55\uff08TV\uff09", None))
+        self.pushButton_logout.setText(QCoreApplication.translate("MainWindow", u"\u9000\u51fa\u767b\u5f55", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"\u89c6\u9891\u7f16\u7801&&\u4e0b\u8f7d\u6e90", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u4e0b\u8f7d\u6e90\uff1a", None))
         self.comboBox_source.setItemText(0, QCoreApplication.translate("MainWindow", u"TV\u7aef", None))

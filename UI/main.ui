@@ -43,6 +43,11 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="title">
          <string>登录账号</string>
         </property>
@@ -70,6 +75,19 @@
            </property>
            <property name="text">
             <string>登录（TV）</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_logout">
+           <property name="font">
+            <font>
+             <family>宋体</family>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>退出登录</string>
            </property>
           </widget>
          </item>

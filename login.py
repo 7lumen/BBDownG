@@ -9,104 +9,128 @@ from PySide6.QtWidgets import QDialog
 from UI.qrcode import Ui_Dialog
 from tools import workdir, system, read_config
 
+LOGIN_FILES = {
+    "login": "BBDownT.data",
+    "logintv": "BBDownTTV.data",
+}
+
 
 # 创建新线程
 class WorkThread(QThread):
     status = Signal(str)
+    qr_ready = Signal(str)
 
-    def __init__(self, arg):
-        super().__init__()
-        self.arg = arg
+    def __init__(self, data_file, qr_path, process, parent=None):
+        super().__init__(parent)
+        self.data_file = data_file
+        self.qr_path = qr_path
+        self.process = process
+        self._last_qr_mtime = None
 
     def run(self):
+        # 超时时间
+        deadline = time.monotonic() + 181
 
-        # 获取BBdown程序路径位置
-        bbdown_path = os.path.dirname(read_config()["lineEdit_bbdown"])
-
-        if self.arg == "login":
-            data_file = os.path.join(bbdown_path, "BBDownT.data")
-        elif self.arg == "logintv":
-            data_file = os.path.join(bbdown_path, "BBDownTTV.data")
-
-        qr_path = os.path.join(workdir, "qrcode.png")
-
-        for i in range(181):
-            time.sleep(1)
-            # 登录成功判定
-            if os.path.exists(data_file):
+        # 等待扫码登录
+        while not self.isInterruptionRequested() and time.monotonic() < deadline:
+            if os.path.isfile(self.data_file):
                 self.status.emit("登录成功")
-                time.sleep(1)
-                self.status.emit("关闭窗口")
                 return
 
-            # 二维码存在
-            if os.path.exists(qr_path):
-                self.status.emit("请扫描二维码")
-            else:
-                self.status.emit("未获取到信息")
+            if os.path.isfile(self.qr_path):
+                try:
+                    mtime = os.path.getmtime(self.qr_path)
+                except OSError:
+                    mtime = None
 
-        # 超时兜底（避免窗口一直不关）
-        self.status.emit("关闭窗口")
+                if mtime is not None and mtime != self._last_qr_mtime:
+                    self._last_qr_mtime = mtime
+                    self.qr_ready.emit(self.qr_path)
+                    self.status.emit("请扫描二维码")
+
+            if self.process.poll() is not None:
+                self.status.emit("登录进程已退出")
+                return
+
+            self.status.emit("等待二维码")
+            self.msleep(1000)
+
+        if not self.isInterruptionRequested():
+            self.status.emit("登录超时")
 
 
 # 显示登录二维码窗口
 class Login(QDialog, Ui_Dialog):
     def __init__(self, arg):
-        super(Login, self).__init__()
+        super().__init__()
         self.setupUi(self)
         self.setWindowTitle("BBdownG - 登录")
-
         self.label_qr.setScaledContents(True)  # 设置图片自适应大小
 
-        # 获取BBdown程序路径
-        bbdown_exe = read_config()["lineEdit_bbdown"]
+        config = read_config()
+        bbdown_exe = config.get("lineEdit_bbdown", "")
+        if not bbdown_exe or not os.path.isfile(bbdown_exe):  # 获取BBdown程序路径
+            raise FileNotFoundError("配置中的 BBDown 程序路径无效")
 
-        # 获取BBdown程序路径位置
-        bbdown_path = os.path.dirname(read_config()["lineEdit_bbdown"])
+        bbdown_dir = os.path.dirname(os.path.abspath(bbdown_exe))  # 获取BBdown程序路径位置
+        self.data_file = os.path.join(bbdown_dir, LOGIN_FILES[arg])
+        self.qr_path = os.path.join(workdir, "qrcode.png")
+        self.process = None
+        self.work_thread = None
+        self._closing = False
 
-        # 判断登录类型和是否有登录后的data文件
-        if arg == "login":
-            old = os.path.join(bbdown_path, "BBDownT.data")
-        elif arg == "logintv":
-            old = os.path.join(bbdown_path, "BBDownTTV.data")
+        try:
+            os.remove(self.data_file)
+        except FileNotFoundError:
+            pass
 
+        # 清除上次登录留下的二维码，避免显示过期图片。
+        try:
+            os.remove(self.qr_path)
+        except FileNotFoundError:
+            pass
 
-        if os.path.exists(old):
-            os.remove(old)
+        self.process = subprocess.Popen([bbdown_exe, arg])
 
-        # 调用BBdown获取二维码
-        if system == "Windows":
-            self.cmd = subprocess.Popen([f"{bbdown_exe}", f"{arg}"], shell=True)
-        else:
-            self.cmd = subprocess.Popen([f"{bbdown_exe}", f"{arg}"])
-
-        # 调用新线程
-        self.work_thread = WorkThread(arg)
-        self.work_thread.status.connect(self.display)
+        self.work_thread = WorkThread(
+            self.data_file,
+            self.qr_path,
+            self.process,
+            self,
+        )
+        self.work_thread.status.connect(self.label.setText)
+        self.work_thread.qr_ready.connect(self.show_qrcode)
+        self.work_thread.status.connect(self.handle_status)
         self.work_thread.start()
 
     # 显示图片和信息
-    def display(self, mes):
-        self.label_qr.setPixmap(QPixmap(os.path.join(workdir, "qrcode.png")))
-        self.label.setText(mes)
+    def show_qrcode(self, path):
+        pixmap = QPixmap(path)
+        if not pixmap.isNull():
+            self.label_qr.setPixmap(pixmap)
 
-        if mes == '关闭窗口':
-            self.close_window()
+    def handle_status(self, message):
+        if message in ("登录成功", "登录超时", "登录进程已退出"):
+            self.accept()
 
-    def close_window(self):
-        """关闭后台运行的BBdownT"""
+    def stop_process(self):
+        if self.process is None or self.process.poll() is not None:
+            return
 
-        if system == "Linux":
-            subprocess.run(["kill", "-9", str(self.cmd.pid)])
-        else:
-            subprocess.run(
-                ["taskkill", "/F", "/T", "/PID", str(self.cmd.pid)], shell=True
-            )
-        self.close()
+        self.process.terminate()
+        try:
+            self.process.wait(timeout=3)
+        except subprocess.TimeoutExpired:
+            self.process.kill()
+            self.process.wait()
 
-    def closeEvent(self, event) -> None:
+    def closeEvent(self, event):
         """窗口关闭时确保线程和进程结束"""
-        if hasattr(self, "work_thread") and self.work_thread.isRunning():
-            self.work_thread.terminate()  # 强制终止线程（可接受）
-        self.close_window()
-        super().closeEvent(event)
+        self._closing = True
+
+        if self.work_thread is not None and self.work_thread.isRunning():
+            self.work_thread.requestInterruption()
+            self.work_thread.wait(3000)
+
+        self.stop_process()
+        event.accept()

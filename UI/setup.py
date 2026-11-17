@@ -15,10 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QFormLayout,
-    QGridLayout, QGroupBox, QHBoxLayout, QLabel,
-    QLineEdit, QPlainTextEdit, QPushButton, QScrollArea,
-    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
+    QFormLayout, QGridLayout, QGroupBox, QHBoxLayout,
+    QLabel, QLineEdit, QPlainTextEdit, QPushButton,
+    QScrollArea, QSizePolicy, QSpacerItem, QVBoxLayout,
+    QWidget)
 
 class Ui_Dialog_SetUp(object):
     def setupUi(self, Dialog_SetUp):
@@ -62,11 +63,6 @@ class Ui_Dialog_SetUp(object):
 
         self.gridLayout.addWidget(self.checkBox_audio_only, 0, 6, 1, 1)
 
-        self.checkBox_archives = QCheckBox(self.groupBox)
-        self.checkBox_archives.setObjectName(u"checkBox_archives")
-
-        self.gridLayout.addWidget(self.checkBox_archives, 1, 0, 1, 2)
-
         self.checkBox_force_http = QCheckBox(self.groupBox)
         self.checkBox_force_http.setObjectName(u"checkBox_force_http")
         self.checkBox_force_http.setFont(font)
@@ -108,6 +104,19 @@ class Ui_Dialog_SetUp(object):
 
         self.gridLayout.addWidget(self.checkBox_video_only, 0, 5, 1, 1)
 
+        self.comboBox_ddf = QComboBox(self.groupBox)
+        self.comboBox_ddf.addItem("")
+        self.comboBox_ddf.addItem("")
+        self.comboBox_ddf.addItem("")
+        self.comboBox_ddf.setObjectName(u"comboBox_ddf")
+
+        self.gridLayout.addWidget(self.comboBox_ddf, 1, 1, 1, 1)
+
+        self.checkBox_dd = QCheckBox(self.groupBox)
+        self.checkBox_dd.setObjectName(u"checkBox_dd")
+
+        self.gridLayout.addWidget(self.checkBox_dd, 1, 0, 1, 1)
+
 
         self.verticalLayout_4.addWidget(self.groupBox)
 
@@ -140,6 +149,17 @@ class Ui_Dialog_SetUp(object):
         self.checkBox_skip_subtitle.setFont(font)
 
         self.horizontalLayout_6.addWidget(self.checkBox_skip_subtitle)
+
+        self.checkBox_archives = QCheckBox(self.groupBox_10)
+        self.checkBox_archives.setObjectName(u"checkBox_archives")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.checkBox_archives.sizePolicy().hasHeightForWidth())
+        self.checkBox_archives.setSizePolicy(sizePolicy)
+        self.checkBox_archives.setMinimumSize(QSize(0, 0))
+
+        self.horizontalLayout_6.addWidget(self.checkBox_archives)
 
 
         self.verticalLayout_4.addWidget(self.groupBox_10)
@@ -611,7 +631,6 @@ class Ui_Dialog_SetUp(object):
         self.checkBox_cover.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4ec5\u4e0b\u8f7d\u5c01\u9762", None))
         self.checkBox_danmaku.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4ec5\u4e0b\u8f7d\u5f39\u5e55", None))
         self.checkBox_audio_only.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4ec5\u4e0b\u8f7d\u97f3\u9891", None))
-        self.checkBox_archives.setText(QCoreApplication.translate("Dialog_SetUp", u"\u8bb0\u5f55\u5df2\u4e0b\u8f7d\u89c6\u9891\uff0c\u540e\u7eed\u8df3\u8fc7", None))
         self.checkBox_force_http.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4f7f\u7528HTTP\u66ff\u6362HTTPS", None))
         self.checkBox_mt.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4f7f\u7528\u591a\u7ebf\u7a0b\u4e0b\u8f7d", None))
         self.checkBox_download_all.setText(QCoreApplication.translate("Dialog_SetUp", u"\u5bfc\u51fa\u89c6\u9891\u5730\u5740\u540e\u4e0b\u8f7dUP\u4e3b\u7684\u5168\u90e8\u6295\u7a3f", None))
@@ -621,11 +640,17 @@ class Ui_Dialog_SetUp(object):
         self.lineEdit_p_video.setPlaceholderText("")
         self.checkBox_sub_only.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4ec5\u4e0b\u8f7d\u5b57\u5e55", None))
         self.checkBox_video_only.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4ec5\u4e0b\u8f7d\u89c6\u9891", None))
+        self.comboBox_ddf.setItemText(0, QCoreApplication.translate("Dialog_SetUp", u"xml,ass", None))
+        self.comboBox_ddf.setItemText(1, QCoreApplication.translate("Dialog_SetUp", u"xml", None))
+        self.comboBox_ddf.setItemText(2, QCoreApplication.translate("Dialog_SetUp", u"ass", None))
+
+        self.checkBox_dd.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4e0b\u8f7d\u5f39\u5e55", None))
         self.groupBox_10.setTitle(QCoreApplication.translate("Dialog_SetUp", u"\u8df3\u8fc7\u9009\u9879", None))
         self.checkBox_skip_ai.setText(QCoreApplication.translate("Dialog_SetUp", u"\u8df3\u8fc7AI\u5b57\u5e55\u4e0b\u8f7d", None))
         self.checkBox_skip_mux.setText(QCoreApplication.translate("Dialog_SetUp", u"\u8df3\u8fc7\u6df7\u6d41\u6b65\u9aa4", None))
         self.checkBox_skip_cover.setText(QCoreApplication.translate("Dialog_SetUp", u"\u8df3\u8fc7\u5c01\u9762\u4e0b\u8f7d", None))
         self.checkBox_skip_subtitle.setText(QCoreApplication.translate("Dialog_SetUp", u"\u8df3\u8fc7\u5b57\u5e55\u4e0b\u8f7d", None))
+        self.checkBox_archives.setText(QCoreApplication.translate("Dialog_SetUp", u"\u8bb0\u5f55\u5df2\u4e0b\u8f7d\u89c6\u9891,\u540e\u7eed\u8df3\u8fc7", None))
         self.groupBox_9.setTitle(QCoreApplication.translate("Dialog_SetUp", u"\u4ea4\u4e92\u9009\u9879", None))
         self.checkBox_debug.setText(QCoreApplication.translate("Dialog_SetUp", u"\u8f93\u51fa\u8c03\u8bd5\u65e5\u5fd7", None))
         self.checkBox_hs.setText(QCoreApplication.translate("Dialog_SetUp", u"\u4e0d\u663e\u793a\u6240\u6709\u97f3\u89c6\u9891\u6d41", None))
