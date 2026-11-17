@@ -24,16 +24,15 @@ BBDownG是BBDown的图形化跨平台版本，支持从哔哩哔哩(B站)下载�
    - 如果你在Linux系统下，且已经安装了 `ffmpeg` 等工具，可以在设置中取消勾选相应的路径，程序会自动识别系统环境变量。
    
 3. **其他**：
-   - 其他使用方法可以根据需求自行探索。
+   - 不登录情况下，选择TV端下载，可以下载最高720p的视频，这个清晰度大多数都满足了
+   - 其他使用方法可以根据需求自行探索，或查看BBDownT说明(https://github.com/LOVAHE/BBDownT)
 
 ## 其他说明
 
 - 本软件是个人练习项目，部分代码和UI参考了（~~借鉴~~）[BBDOwn - GUI](https://github.com/1299172402/BBDown_GUI)软件。
 - 软件图标来源于网络，如有版权问题，请联系作者删除。
 
-## 当前版本
 
-- **版本号**：v1.2
 - **GitHub仓库地址**：[https://github.com/7lumen/BBDownG](https://github.com/7lumen/BBDownG)
 
 ## 致谢
