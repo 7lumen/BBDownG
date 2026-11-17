@@ -31,9 +31,8 @@ BBDownG是BBDown的图形化跨平台版本，支持从哔哩哔哩(B站)下载�
 
 - 本软件是个人练习项目，部分代码和UI参考了（~~借鉴~~）[BBDOwn - GUI](https://github.com/1299172402/BBDown_GUI)软件。
 - 软件图标来源于网络，如有版权问题，请联系作者删除。
-
-
 - **GitHub仓库地址**：[https://github.com/7lumen/BBDownG](https://github.com/7lumen/BBDownG)
+- Windows与Linux下打包命令：`nuitka --windows-console-mode=disable --output-dir=out --show-memory --enable-plugin=pyside6 --windows-icon-from-ico=icon.ico --onefile main.py` 可以直接使用源码自行打包
 
 ## 致谢
 
